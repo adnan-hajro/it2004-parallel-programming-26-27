@@ -19,14 +19,14 @@ void run_aos_aoa_kernel(long len) {
     long num_blocks = (len + V - 1) / V;
 
     // allocate array of SoA_type structures - IT'S C++
-
+SoA_type* AoSoA = new SoA_type[num_blocks];
     auto start = std::chrono::high_resolution_clock::now();
     for (long j = 0; j < num_blocks; j++) {
         for (int i = 0; i < V; i++) {
             if ((j * V + i) < len) {
-//                AoSoA[j].R[i] = rand();
-//                AoSoA[j].G[i] = rand();
-//                AoSoA[j].B[i] = rand();
+                AoSoA[j].R[i] = rand();
+                AoSoA[j].G[i] = rand();
+                AoSoA[j].B[i] = rand();
             }
         }
     }
@@ -34,7 +34,7 @@ void run_aos_aoa_kernel(long len) {
     auto end = std::chrono::high_resolution_clock::now();
 
     // deallocate the resources
-
+delete[] AoSoA;
     auto duration_ns = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start);
 
     double total_time_ms = duration_ns.count() / 1000000.0;
